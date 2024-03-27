@@ -37,7 +37,7 @@ public class LibraryHoursEntity
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "day_of_week", unique = true)
+    @Column(name = "day_of_week")
     private DayOfWeek dayOfWeek;
 
     @Column(name = "opening_hours")

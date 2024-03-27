@@ -16,11 +16,11 @@ public interface LibraryService
 {
     List<LibraryDTO> getAllLibraries();
 
-    Optional<LibraryDTO> findLibraryById(final Long id) throws LibraryNotFoundException;
+    LibraryDTO findLibraryById(final Long id) throws LibraryNotFoundException;
 
     LibraryDTO createLibrary(final LibraryDTO libraryDTO);
 
-    Optional<LibraryDTO> updateLibrary(final LibraryDTO libraryDTO) throws LibraryNotFoundException ;
+    LibraryDTO updateLibrary(final LibraryDTO libraryDTO) throws LibraryNotFoundException ;
 
     void deleteLibraryById(final Long id);
 }

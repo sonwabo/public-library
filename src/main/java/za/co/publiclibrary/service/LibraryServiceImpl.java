@@ -15,10 +15,7 @@ import za.co.publiclibrary.model.dao.LibraryRepository;
 import za.co.publiclibrary.model.entity.LibraryEntity;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.Optional.of;
 
 /**
  * @author <a href="mailto:s.singatha@gmail.com">Sonwabo Singatha</a>
@@ -47,11 +44,12 @@ public class LibraryServiceImpl implements LibraryService
 
     @SneakyThrows
     @Cacheable(value = CACHE_NAME, key = "#id")
-    public Optional<LibraryDTO> findLibraryById(final Long id)
+    public LibraryDTO findLibraryById(final Long id)
     {
         return libraryRepository
                 .findById(id)
-                .map(LibraryMapper.INSTANCE::toDTO);
+                .map(LibraryMapper.INSTANCE::toDTO)
+                .orElseThrow(() -> new LibraryNotFoundException("Library not found for provided id: " + id ));
     }
 
     @CacheEvict(value = CACHE_NAME, allEntries = true)
@@ -62,16 +60,15 @@ public class LibraryServiceImpl implements LibraryService
     }
 
     @SneakyThrows
-    public Optional<LibraryDTO> updateLibrary(final LibraryDTO libraryDTO)
+    public LibraryDTO updateLibrary(final LibraryDTO libraryDTO)
     {
         if (!libraryRepository.existsById(libraryDTO.id())) {
             throw new LibraryNotFoundException("Library not found with id: " + libraryDTO.id());
         }
 
         final var entity = LibraryMapper.INSTANCE.toEntity(libraryDTO);
-        final var updateLibrary = LibraryMapper.INSTANCE.toDTO(libraryRepository.save(entity));
 
-        return  of(updateLibrary);
+        return  LibraryMapper.INSTANCE.toDTO(libraryRepository.save(entity));
     }
 
     @CacheEvict(value = CACHE_NAME, allEntries = true)

@@ -1,6 +1,7 @@
 package za.co.publiclibrary.controller;
 
 import io.swagger.annotations.ApiOperation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 import za.co.publiclibrary.dto.LibraryDTO;
 import za.co.publiclibrary.service.LibraryService;
 
@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping(LibraryController.BASE_PATH)
 @RequiredArgsConstructor
 public class LibraryController {
-    final static String BASE_PATH = "/api/libraries";
+    public final static String BASE_PATH = "/api/libraries";
 
     private final LibraryService libraryService;
 
@@ -41,14 +41,20 @@ public class LibraryController {
                 .ok(this.libraryService.getAllLibraries());
     }
 
+    @GetMapping("/{id}")
+    @SneakyThrows
+    public ResponseEntity<LibraryDTO> getLibrary(@PathVariable final Long id)
+    {
+        return ResponseEntity.ok(this.libraryService.findLibraryById(id));
+    }
+
     @PostMapping
-    public ResponseEntity<LibraryDTO> createLibrary(@RequestBody final LibraryDTO library, UriComponentsBuilder uriComponentsBuilder)
+    public ResponseEntity<LibraryDTO> createLibrary(@Valid @RequestBody final LibraryDTO library)
     {
         final var savedLibrary = this.libraryService.createLibrary(library);
 
-//        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("").toUriString());
-
-        final var location = uriComponentsBuilder
+        final var location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
                 .path(BASE_PATH)
                 .buildAndExpand(savedLibrary.id())
                 .toUri();
@@ -60,16 +66,14 @@ public class LibraryController {
 
     @PutMapping
     @SneakyThrows
-    public ResponseEntity<Void> updateLibrary(@RequestBody LibraryDTO library)
+    public ResponseEntity<LibraryDTO> updateLibrary(@Valid @RequestBody final LibraryDTO library)
     {
-        return libraryService
-                .updateLibrary(library)
-                .map(updated -> ResponseEntity.ok().<Void>build())
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity
+                .ok(this.libraryService.updateLibrary(library));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLibraryById(@PathVariable Long id)
+    public ResponseEntity<Void> deleteLibraryById(@PathVariable final Long id)
     {
         libraryService.deleteLibraryById(id);
         return ResponseEntity.ok().build();

@@ -1,5 +1,9 @@
 package za.co.publiclibrary.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.io.Serializable;
 import java.time.DayOfWeek;
 
@@ -8,5 +12,24 @@ import java.time.DayOfWeek;
  * @version 1.0
  * @Date 2024/03/27
   */
+@JsonIgnoreProperties
+public record LibraryHoursDTO(Long id, DayOfWeek dayOfWeek, String openingHours, String closingHours) implements Serializable
+{
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
 
-public record LibraryHoursDTO(Long id, DayOfWeek dayOfWeek, String openingHours, String closingHours) implements Serializable {}
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LibraryHoursDTO that = (LibraryHoursDTO) o;
+
+        return new EqualsBuilder().append(id, that.id).append(dayOfWeek, that.dayOfWeek).append(openingHours, that.openingHours).append(closingHours, that.closingHours).isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37).append(id).append(dayOfWeek).append(openingHours).append(closingHours).toHashCode();
+    }
+}

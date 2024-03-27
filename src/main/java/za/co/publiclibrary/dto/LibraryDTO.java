@@ -1,5 +1,7 @@
 package za.co.publiclibrary.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -11,8 +13,8 @@ import java.util.List;
  * @version 1.0
  * @Date 2024/03/26
  */
-
-public record LibraryDTO(Long id, String name, String location, List<BookDTO> bookList, List<LibraryHoursDTO> openingHours) implements Serializable
+@JsonIgnoreProperties
+public record LibraryDTO(Long id, @NotNull String name, @NotNull String location, List<BookDTO> bookList, List<LibraryHoursDTO> openingHours) implements Serializable
 {
     @Override
     public boolean equals(Object o) {

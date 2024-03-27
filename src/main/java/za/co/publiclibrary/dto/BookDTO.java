@@ -1,5 +1,7 @@
 package za.co.publiclibrary.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import za.co.publiclibrary.model.enums.BookGenre;
@@ -12,8 +14,8 @@ import java.time.LocalDate;
  * @version 1.0
  * @Date 2024/03/26
  */
-
-public record BookDTO(Long id, String title, String author, BookGenre genre, LocalDate publicationDate) implements Serializable
+@JsonIgnoreProperties
+public record BookDTO(Long id, @NotNull String title, @NotNull String author,@NotNull BookGenre genre, @NotNull LocalDate publicationDate) implements Serializable
 {
     @Override
     public boolean equals(Object o)

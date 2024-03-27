@@ -4,7 +4,6 @@ import za.co.publiclibrary.dto.LibraryDTO;
 import za.co.publiclibrary.exceptions.LibraryNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author <a href="mailto:s.singatha@gmail.com">Sonwabo Singatha</a>

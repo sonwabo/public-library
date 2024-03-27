@@ -13,7 +13,7 @@ import java.time.DayOfWeek;
  * @Date 2024/03/27
   */
 @JsonIgnoreProperties
-public record LibraryHoursDTO(Long id, DayOfWeek dayOfWeek, String openingHours, String closingHours) implements Serializable
+public record LibraryHoursDTO(Long id, Long library_id, DayOfWeek dayOfWeek, String openingHours, String closingHours) implements Serializable
 {
     @Override
     public boolean equals(Object o)

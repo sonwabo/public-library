@@ -15,7 +15,7 @@ import java.time.LocalDate;
  * @Date 2024/03/26
  */
 @JsonIgnoreProperties
-public record BookDTO(Long id, @NotNull String title, @NotNull String author,@NotNull BookGenre genre, @NotNull LocalDate publicationDate) implements Serializable
+public record BookDTO(Long id, @NotNull Long library_id, @NotNull String title, @NotNull String author,@NotNull BookGenre genre, @NotNull LocalDate publicationDate) implements Serializable
 {
     @Override
     public boolean equals(Object o)

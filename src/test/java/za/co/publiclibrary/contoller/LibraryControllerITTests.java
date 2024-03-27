@@ -84,7 +84,7 @@ public class LibraryControllerITTests {
 
     @Test
     public void createLibraryAPI() throws Exception {
-        final var data = TestDataGenerator.COMPLETE.generate();
+        final var data = TestDataGenerator.COMPLETE.generate(null);
 
         mvc.perform(MockMvcRequestBuilders
                         .post(LibraryController.BASE_PATH)
@@ -108,7 +108,7 @@ public class LibraryControllerITTests {
     {
         mvc.perform(MockMvcRequestBuilders
                         .post(LibraryController.BASE_PATH)
-                        .content(asJsonString(TestDataGenerator.INCOMPLETE.generate()))
+                        .content(asJsonString(TestDataGenerator.INCOMPLETE.generate(null)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

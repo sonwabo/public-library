@@ -56,10 +56,13 @@ public class LibraryServiceImpl implements LibraryService
     public LibraryDTO createLibrary(final LibraryDTO libraryDTO)
     {
         LibraryEntity entity = LibraryMapper.INSTANCE.toEntity(libraryDTO);
+        LibraryMapper.INSTANCE.mapLibraryOnDependencies(entity);
+
         return LibraryMapper.INSTANCE.toDTO(libraryRepository.save(entity));
     }
 
     @SneakyThrows
+    @CacheEvict(value = CACHE_NAME, allEntries = true)
     public LibraryDTO updateLibrary(final LibraryDTO libraryDTO)
     {
         if (!libraryRepository.existsById(libraryDTO.id())) {
@@ -67,6 +70,7 @@ public class LibraryServiceImpl implements LibraryService
         }
 
         final var entity = LibraryMapper.INSTANCE.toEntity(libraryDTO);
+        LibraryMapper.INSTANCE.mapLibraryOnDependencies(entity);
 
         return  LibraryMapper.INSTANCE.toDTO(libraryRepository.save(entity));
     }

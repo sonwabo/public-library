@@ -30,7 +30,7 @@ import  za.co.publiclibrary.model.enums.BookGenre;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+@Builder(toBuilder = true, setterPrefix = "with")
 public class BookEntity
 {
     @Id

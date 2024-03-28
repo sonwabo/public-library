@@ -1,4 +1,4 @@
-package za.co.publiclibrary.contoller;
+package za.co.publiclibrary.libraries;
 
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -12,8 +12,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import za.co.publiclibrary.dto.LibraryDTO;
 import za.co.publiclibrary.controller.LibraryController;
+import za.co.publiclibrary.dto.LibraryDTO;
 import za.co.publiclibrary.service.LibraryService;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
  */
 
 @ExtendWith(MockitoExtension.class)
-public class LibraryControllerUnitTests
+public class LibraryControllerTests
 {
     @InjectMocks
     LibraryController subject;

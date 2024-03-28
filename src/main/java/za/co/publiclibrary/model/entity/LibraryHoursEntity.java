@@ -29,7 +29,7 @@ import java.time.DayOfWeek;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+@Builder(toBuilder = true, setterPrefix = "with")
 public class LibraryHoursEntity
 {
     @Id

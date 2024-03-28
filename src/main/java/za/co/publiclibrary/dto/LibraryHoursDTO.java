@@ -1,6 +1,7 @@
 package za.co.publiclibrary.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -13,7 +14,7 @@ import java.time.DayOfWeek;
  * @Date 2024/03/27
   */
 @JsonIgnoreProperties
-public record LibraryHoursDTO(Long id, Long library_id, DayOfWeek dayOfWeek, String openingHours, String closingHours) implements Serializable
+public record LibraryHoursDTO(Long id, @NotNull Long library_id, @NotNull DayOfWeek dayOfWeek, @NotNull String openingHours, @NotNull String closingHours) implements Serializable
 {
     @Override
     public boolean equals(Object o)

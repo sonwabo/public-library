@@ -11,6 +11,9 @@ import za.co.publiclibrary.model.entity.LibraryEntity;
 import za.co.publiclibrary.model.entity.BookEntity;
 import za.co.publiclibrary.model.entity.LibraryHoursEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author <a href="mailto:s.singatha@gmail.com">Sonwabo Singatha</a>
  * @version 1.0
@@ -24,6 +27,13 @@ public interface LibraryMapper
 
     LibraryDTO toDTO(LibraryEntity entity);
 
+    @Mappings({
+            @Mapping(target = "withId", source = "id"),
+            @Mapping(target = "withName", source = "name"),
+            @Mapping(target = "withLocation", source = "location"),
+            @Mapping(target = "withBookList", expression = "java(mapBookList(dto))"),
+            @Mapping(target = "withOpeningHours", expression = "java(mapLibraryHours(dto))"),
+    })
     LibraryEntity toEntity(LibraryDTO dto);
 
     @Mappings({
@@ -51,5 +61,40 @@ public interface LibraryMapper
         if (entity.getOpeningHours() != null) {
             entity.getOpeningHours().forEach(libraryHoursEntity -> libraryHoursEntity.setLibrary(entity));
         }
+    }
+
+    default List<BookEntity> mapBookList(final LibraryDTO dto)
+    {
+      var books = new ArrayList<BookEntity>();
+      if (dto.bookList() != null) {
+          dto.bookList().forEach(bookDTO -> {
+              books.add(
+                      BookEntity.builder()
+                              .withId(bookDTO.id())
+                              .withAuthor(bookDTO.author())
+                              .withTitle(bookDTO.title())
+                              .withGenre(bookDTO.genre())
+                              .withPublicationDate(bookDTO.publicationDate())
+                              .build()
+              );
+          });
+      }
+      return books;
+    }
+
+    default List<LibraryHoursEntity> mapLibraryHours(final LibraryDTO dto)
+    {
+        var openingClosingHours = new ArrayList<LibraryHoursEntity>();
+        if (dto.openingHours() != null) {
+            dto.openingHours().forEach(libraryHoursDTO -> {
+                openingClosingHours.add( LibraryHoursEntity.builder()
+                                .withId(libraryHoursDTO.id())
+                                .withDayOfWeek(libraryHoursDTO.dayOfWeek())
+                                .withOpeningHours(libraryHoursDTO.openingHours())
+                                .withClosingHours(libraryHoursDTO.closingHours())
+                        .build());
+            });
+        }
+        return openingClosingHours;
     }
 }

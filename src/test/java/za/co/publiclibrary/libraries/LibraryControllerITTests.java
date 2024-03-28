@@ -1,16 +1,13 @@
-package za.co.publiclibrary.contoller;
+package za.co.publiclibrary.libraries;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import za.co.publiclibrary.IntegrationTestParent;
 import za.co.publiclibrary.controller.LibraryController;
 import za.co.publiclibrary.service.LibraryService;
 import za.co.publiclibrary.testdata.TestDataGenerator;
@@ -29,22 +26,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @Date 2024/03/27
  */
 
-@SpringBootTest
-@AutoConfigureMockMvc
-public class LibraryControllerITTests {
+public class LibraryControllerITTests extends IntegrationTestParent {
 
-    final ObjectMapper objectMapper = new ObjectMapper();
-    @Autowired
-    private MockMvc mvc;
     @Autowired
     private LibraryService service;
 
-    {
-        objectMapper.registerModule(new JavaTimeModule());
-    }
-
     @Test
-    public void getAllLibrariesAPI() throws Exception {
+    void getAllLibrariesAPI() throws Exception {
         this.mvc.perform(MockMvcRequestBuilders
                         .get(LibraryController.BASE_PATH)
                         .accept(MediaType.APPLICATION_JSON))
@@ -54,7 +42,7 @@ public class LibraryControllerITTests {
     }
 
     @Test
-    public void getLibraryAPI() throws Exception
+    void getLibraryAPI() throws Exception
     {
         this.mvc.perform(MockMvcRequestBuilders
                         .get(LibraryController.BASE_PATH.concat("/1"))
@@ -68,9 +56,9 @@ public class LibraryControllerITTests {
     }
 
     @Test
-    public void getLibraryAPI_throw_LibraryNotFoundException() throws Exception
+    void getLibraryAPI_throw_LibraryNotFoundException() throws Exception
     {
-        final String expectedErrorMessage = "Library not found for provided id";
+        final String expectedErrorMessage = "Library not found for provided id: 100";
 
         mvc.perform(MockMvcRequestBuilders
                         .get(LibraryController.BASE_PATH.concat("/100"))
@@ -83,7 +71,7 @@ public class LibraryControllerITTests {
     }
 
     @Test
-    public void createLibraryAPI() throws Exception {
+    void createLibraryAPI() throws Exception {
         final var data = TestDataGenerator.COMPLETE.generate(null);
 
         mvc.perform(MockMvcRequestBuilders
@@ -104,7 +92,7 @@ public class LibraryControllerITTests {
     }
 
     @Test
-    public void createLibraryAPI_ValidationErrorMethodArgumentNotValidException() throws Exception
+    void createLibraryAPI_ValidationErrorMethodArgumentNotValidException() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
                         .post(LibraryController.BASE_PATH)
@@ -117,15 +105,4 @@ public class LibraryControllerITTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(400))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message[0]").value("must not be null"));
     }
-
-
-    public String asJsonString(final Object obj)
-    {
-        try {
-            return this.objectMapper.writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

@@ -65,7 +65,7 @@ public class LibraryServiceImpl implements LibraryService
     @CacheEvict(value = CACHE_NAME, allEntries = true)
     public LibraryDTO updateLibrary(final LibraryDTO libraryDTO)
     {
-        if (!libraryRepository.existsById(libraryDTO.id())) {
+        if (!this.libraryRepository.existsById(libraryDTO.id())) {
             throw new LibraryNotFoundException("Library not found with id: " + libraryDTO.id());
         }
 
@@ -84,4 +84,5 @@ public class LibraryServiceImpl implements LibraryService
     @Scheduled(cron = "0 0 0 * * ?") // Refresh cache daily at midnight
     @CacheEvict(value = CACHE_NAME, allEntries = true)
     public void evictCache() { /* Cache will be refreshed automatically */ }
+
 }

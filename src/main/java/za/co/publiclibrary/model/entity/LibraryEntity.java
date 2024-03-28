@@ -27,7 +27,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+@Builder(toBuilder = true, setterPrefix = "with")
 @ToString(exclude = {"bookList", "openingHours"})
 public class LibraryEntity
 {

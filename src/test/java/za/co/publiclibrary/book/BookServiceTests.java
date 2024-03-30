@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import za.co.publiclibrary.config.MessageUtil;
 import za.co.publiclibrary.dto.BookDTO;
 import za.co.publiclibrary.exceptions.BookNotFoundException;
 import za.co.publiclibrary.exceptions.LibraryNotFoundException;
@@ -36,7 +37,7 @@ import static org.mockito.Mockito.when;
  */
 
 @ExtendWith(MockitoExtension.class)
-public class BookServiceTests {
+class BookServiceTests {
 
     @Mock
     private BookRepository bookRepository;
@@ -45,8 +46,11 @@ public class BookServiceTests {
     @InjectMocks
     private BookServiceImpl bookService;
 
+    @InjectMocks
+    private MessageUtil messageUtil;
+
     @Test
-    public void test_FindBookById()
+    void test_FindBookById()
     {
         final var bookId = 1L;
         final var bookEntity = BookEntity.builder()
@@ -67,7 +71,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_FindBookById_Negative()
+    void test_FindBookById_Negative()
     {
         final Long bookId = 31L;
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
@@ -78,7 +82,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_CreateBook()
+    void test_CreateBook()
     {
         final var bookId = 5L;
         final var bookDTO = new BookDTO(null, null, "Title", "Author", BookGenre.SCIENCE_FICTION, LocalDate.now());
@@ -101,7 +105,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_UpdateBook_Positive() {
+    void test_UpdateBook_Positive() {
 
         final var bookId = 1L;
         final var bookDTO = new BookDTO(bookId, null, "Updated Title", "Updated Author", BookGenre.SCIENCE_FICTION, LocalDate.now());
@@ -116,7 +120,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_UpdateBook_Negative()
+    void test_UpdateBook_Negative()
     {
         final var bookId = 1L;
         final var bookDTO = new BookDTO(bookId, null, "Updated Title", "Updated Author", BookGenre.SCIENCE_FICTION, LocalDate.now());
@@ -127,7 +131,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_AssignBookToLibrary_Positive()
+    void test_AssignBookToLibrary_Positive()
     {
         final var libraryId = 1L;
         final var bookId = 1L;
@@ -146,7 +150,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_AssignBookToLibrary_Negative_LibraryNotFound()
+    void test_AssignBookToLibrary_Negative_LibraryNotFound()
     {
         final var libraryId = 1L;
         final var bookId = 1L;
@@ -157,7 +161,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_AssignBookToLibrary_Negative_BookNotFound()
+    void test_AssignBookToLibrary_Negative_BookNotFound()
     {
         final var libraryId = 1L;
         final var bookId = 1L;
@@ -169,7 +173,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_RemoveBookFromLibrary_Positive()
+    void test_RemoveBookFromLibrary_Positive()
     {
         final var libraryId = 1L;
         final var bookId = 1L;
@@ -195,7 +199,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_RemoveBookFromLibrary_Negative_LibraryNotFound()
+    void test_RemoveBookFromLibrary_Negative_LibraryNotFound()
     {
         final var libraryId = 1L;
         final var bookId = 1L;
@@ -206,7 +210,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_RemoveBookFromLibrary_Negative_BookNotFound()
+    void test_RemoveBookFromLibrary_Negative_BookNotFound()
     {
         final var libraryId = 1L;
         final var bookId = 1L;
@@ -218,7 +222,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void test_DeleteBookById()
+    void test_DeleteBookById()
     {
         final var bookId = 1L;
 
@@ -228,7 +232,7 @@ public class BookServiceTests {
     }
 
     @Test
-    public void testEvictCache()
+    void testEvictCache()
     {
         assertDoesNotThrow(() -> bookService.evictCache());
     }

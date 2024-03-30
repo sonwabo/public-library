@@ -14,9 +14,9 @@ import java.util.List;
 
 import static java.util.List.of;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;
 
 /**
  * @author <a href="mailto:s.singatha@gmail.com">Sonwabo Singatha</a>
@@ -61,6 +61,7 @@ public class GlobalExceptionHandler
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(BAD_REQUEST)
     public ResponseEntity<CustomError> handleValidationExceptions(MethodArgumentNotValidException ex)
     {
         List<String> errors = ex.getBindingResult()
@@ -75,12 +76,13 @@ public class GlobalExceptionHandler
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(CONFLICT)
     public ResponseEntity<CustomError> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex)
     {
         log.info(ex.getMessage());
         return ResponseEntity
                 .badRequest()
-                .body(new CustomError(CLIENT_ERROR.value(), of(ex.getLocalizedMessage())));
+                .body(new CustomError(CONFLICT.value(), of(ex.getMessage())));
     }
 
     record CustomError(int code, List<String> message) implements Serializable {}

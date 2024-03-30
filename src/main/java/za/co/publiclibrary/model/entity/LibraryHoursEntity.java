@@ -25,7 +25,7 @@ import java.time.DayOfWeek;
  */
 
 @Entity
-@Table(schema ="public_library", name = "library_hours")
+@Table(schema ="public_library", name = "library_hours", catalog = "online_public_libraries")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

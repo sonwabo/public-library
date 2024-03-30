@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,12 +24,11 @@ import za.co.publiclibrary.service.BookService;
  */
 
 @RestController
-@RequestMapping(BookController.BASE_PATH)
+@RequestMapping( "/api/books")
 @RequiredArgsConstructor
 @Slf4j
-public class BookController {
-
-    public final static String BASE_PATH = "/api/books";
+public class BookController
+{
 
     private final BookService bookService;
 
@@ -44,20 +44,20 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BookDTO> updateBook(@PathVariable Long id, @RequestBody @Validated BookDTO bookDTO) {
+    @PutMapping
+    public ResponseEntity<BookDTO> updateBook(@RequestBody @Validated BookDTO bookDTO) {
         BookDTO updatedBook = bookService.updateBook(bookDTO);
         return ResponseEntity.ok(updatedBook);
     }
 
-    @PostMapping("/assign/{libraryId}/{bookId}")
+    @PatchMapping("/assign/{libraryId}/{bookId}")
     public ResponseEntity<BookDTO> assignBookToLibrary(@PathVariable Long libraryId, @PathVariable Long bookId)
     {
         BookDTO assignedBook = bookService.assignBookToLibrary(libraryId, bookId);
         return ResponseEntity.ok(assignedBook);
     }
 
-    @PostMapping("/remove/{libraryId}/{bookId}")
+    @PatchMapping("/remove/{libraryId}/{bookId}")
     public ResponseEntity<Void> removeBookFromLibrary(@PathVariable Long libraryId, @PathVariable Long bookId)
     {
         bookService.removeBookFromLibrary(libraryId, bookId);

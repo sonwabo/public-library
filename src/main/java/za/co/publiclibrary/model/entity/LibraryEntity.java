@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(schema ="public_library", name = "library")
+@Table(schema ="public_library", name = "library", catalog = "online_public_libraries")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

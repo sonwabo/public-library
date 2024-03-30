@@ -26,7 +26,7 @@ import  za.co.publiclibrary.model.enums.BookGenre;
  */
 
 @Entity
-@Table(schema ="public_library", name = "books")
+@Table(schema ="public_library", name = "books", catalog = "online_public_libraries")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

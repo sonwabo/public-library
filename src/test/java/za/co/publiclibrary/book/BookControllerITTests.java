@@ -16,16 +16,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @Date 2024/03/28
  */
 
-public class BookControllerITTests extends IntegrationTestParent {
+class BookControllerITTests extends IntegrationTestParent {
 
+    final static String BASE_PATH = "/api/books";
     @Autowired
     private BookService bookService;
 
     @Test
-    public void testFindBookById() throws Exception {
+    void testFindBookById() throws Exception {
         final Long bookId = 1L;
 
-        mvc.perform(get(BookController.BASE_PATH + "/{id}", bookId))
+        mvc.perform(get(BASE_PATH + "/{id}", bookId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(bookId));

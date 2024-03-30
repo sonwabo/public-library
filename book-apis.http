@@ -1,0 +1,35 @@
+POST http://localhost:8080/api/books
+Content-Type: application/json
+
+// Create book with for a specific library
+// {"id":null,"library_id":2,"title":"know My Name","author":"Chanel Miller","genre":"MEMOIR","publicationDate": "2024-03-28"}
+
+// Create a dangling book without library
+{"id":null,"library_id":null,"title":"Breaking Superman","author":"Lex Luthor","genre":"SCIENCE_FICTION","publicationDate":"2022-06-15"}
+
+### Get Book
+GET http://localhost:8080/api/books/4
+
+### Update Book
+PUT  http://localhost:8080/api/books/5
+Content-Type: application/json
+
+{
+  "id": 4,
+  "library_id": 2,
+  "title": "know My Name Version 2",
+  "author": "Chanel Miller",
+  "genre": "MEMOIR",
+  "publicationDate": "2024-03-28"
+}
+
+### Assign Book to library
+PATCH http://localhost:8080/api/books/assign/2/4
+
+### Remove Book from library
+PATCH http://localhost:8080/api/books/remove/2/4
+
+
+
+
+

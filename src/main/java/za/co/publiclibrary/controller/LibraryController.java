@@ -26,10 +26,9 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping(LibraryController.BASE_PATH)
+@RequestMapping( "/api/libraries")
 @RequiredArgsConstructor
 public class LibraryController {
-    public final static String BASE_PATH = "/api/libraries";
 
     private final LibraryService libraryService;
 
@@ -55,7 +54,7 @@ public class LibraryController {
 
         final var location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path(BASE_PATH)
+                .path("/api/libraries")
                 .buildAndExpand(savedLibrary.id())
                 .toUri();
 

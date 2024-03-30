@@ -26,15 +26,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @Date 2024/03/27
  */
 
-public class LibraryControllerITTests extends IntegrationTestParent {
+class LibraryControllerITTests extends IntegrationTestParent {
 
+    final static String BASE_PATH = "/api/libraries";
     @Autowired
     private LibraryService service;
 
     @Test
     void getAllLibrariesAPI() throws Exception {
         this.mvc.perform(MockMvcRequestBuilders
-                        .get(LibraryController.BASE_PATH)
+                        .get(BASE_PATH)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -45,7 +46,7 @@ public class LibraryControllerITTests extends IntegrationTestParent {
     void getLibraryAPI() throws Exception
     {
         this.mvc.perform(MockMvcRequestBuilders
-                        .get(LibraryController.BASE_PATH.concat("/1"))
+                        .get(BASE_PATH.concat("/1"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -61,7 +62,7 @@ public class LibraryControllerITTests extends IntegrationTestParent {
         final String expectedErrorMessage = "Library not found for provided id: 100";
 
         mvc.perform(MockMvcRequestBuilders
-                        .get(LibraryController.BASE_PATH.concat("/100"))
+                        .get(BASE_PATH.concat("/100"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound())
@@ -75,7 +76,7 @@ public class LibraryControllerITTests extends IntegrationTestParent {
         final var data = TestDataGenerator.COMPLETE.generate(null);
 
         mvc.perform(MockMvcRequestBuilders
-                        .post(LibraryController.BASE_PATH)
+                        .post(BASE_PATH)
                         .content(asJsonString(data))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -95,7 +96,7 @@ public class LibraryControllerITTests extends IntegrationTestParent {
     void createLibraryAPI_ValidationErrorMethodArgumentNotValidException() throws Exception
     {
         mvc.perform(MockMvcRequestBuilders
-                        .post(LibraryController.BASE_PATH)
+                        .post(BASE_PATH)
                         .content(asJsonString(TestDataGenerator.INCOMPLETE.generate(null)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

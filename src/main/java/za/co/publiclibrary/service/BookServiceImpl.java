@@ -108,6 +108,7 @@ public class BookServiceImpl implements BookService {
     @CacheEvict(value = "books", allEntries = true)
     public void deleteBookById(final Long id)
     {
+        validateBookExists(id);
         bookRepository.deleteById(id);
     }
 

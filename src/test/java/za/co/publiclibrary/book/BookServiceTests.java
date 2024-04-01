@@ -1,5 +1,6 @@
 package za.co.publiclibrary.book;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,9 +47,13 @@ class BookServiceTests {
     private LibraryRepository libraryRepository;
     @InjectMocks
     private BookServiceImpl bookService;
-
-    @InjectMocks
+    @Mock
     private MessageUtil messageUtil;
+
+    @BeforeEach
+    void setUp() {
+        //messageUtil = new MessageUtil(messageSource);
+    }
 
     @Test
     void test_FindBookById()
@@ -71,14 +77,31 @@ class BookServiceTests {
     }
 
     @Test
-    void test_FindBookById_Negative()
+    void test_FindBookById_Negative1()
     {
-        final Long bookId = 31L;
+        final var bookId = 31L;
+        when(this.messageUtil.getMessage(any(String.class), any())).thenReturn(String.format("Book not found for id: %s!", bookId));
+
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 
         final var ex = assertThrows(BookNotFoundException.class, () -> bookService.findBookById(bookId));
 
-        assertEquals("Book not found for id: 31", ex.getMessage());
+        assertEquals("Book not found for id: 31!", ex.getMessage());
+    }
+
+    @Test
+    void test_FindBookById_Negative()
+    {
+        final Long bookId = 31L;
+        final var expectedMessage = "Book not found for id: 31!";
+
+        doThrow(new BookNotFoundException(expectedMessage)).when(messageUtil).getMessage("ex.book.not.found.message", bookId);
+
+        when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
+
+        final var ex = assertThrows(BookNotFoundException.class, () -> bookService.findBookById(bookId));
+
+        assertEquals(expectedMessage, ex.getMessage());
     }
 
     @Test
@@ -105,7 +128,8 @@ class BookServiceTests {
     }
 
     @Test
-    void test_UpdateBook_Positive() {
+    void test_UpdateBook_Positive()
+    {
 
         final var bookId = 1L;
         final var bookDTO = new BookDTO(bookId, null, "Updated Title", "Updated Author", BookGenre.SCIENCE_FICTION, LocalDate.now());
@@ -225,6 +249,8 @@ class BookServiceTests {
     void test_DeleteBookById()
     {
         final var bookId = 1L;
+
+        when(bookRepository.existsById(bookId)).thenReturn(true);
 
         bookService.deleteBookById(bookId);
 

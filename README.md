@@ -23,14 +23,14 @@ Before running make sure that you at-least have java 17 or higher installed on y
 
 **There are a 3ways one can run the application**
 1. Running the Fat-Jar manually
-2. Running using maven
+2. Running using maven wrapper
 3. Running on Docker and using docker-compose
 
 **Running the Fat-Jar and using the in-memory DataBase**
 
 1. Clone the repository: `git clone https://github.com/sonwabo/public-library.git
 2. Navigate to the project directory: `cd public-library`
-3. Build the project: `mvn clean install`
+3. Build the project: `./mvnw clean install`
 4. Navigate to the target directory:
 5. Execute the following command: `java -jar online-public-library.jar --spring.profiles.active=local`
 
@@ -38,8 +38,8 @@ Before running make sure that you at-least have java 17 or higher installed on y
 
 1. Clone the repository: `git clone https://github.com/sonwabo/public-library.git
 2. Navigate to the project directory: `cd public-library`
-3. Build the project: `mvn clean install`
-4. Run the application: `mvn spring-boot:run -Dspring-boot.run.profiles=local`
+3. Build the project: `./mvnw clean install`
+4. Run the application: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local`
 
 **Running on Docker and connecting to a PostGreSQL container**
 
@@ -52,10 +52,10 @@ To run the application using Docker Compose, ensure Docker and Docker Compose ar
 3. Execute the following command to start up the orchestration: `docker-compose up -d`
 
 ### Access the Application:
-   Once the application is running, you can access the API endpoints and Swagger UI through your web browser:
+Once the application is running, you can access the API endpoints and Swagger UI through your web browser:
 
-     API Endpoints: http://localhost:8080/api-docs
-     Swagger UI: http://localhost:8080/swagger-ui/index.html
+1. API Endpoints: `http://localhost:8080/api-docs`
+2. Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 
 ### API Endpoints
 - **Books**:

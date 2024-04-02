@@ -1,7 +1,7 @@
 ## Public Library Management System
 
 ### Introduction
-This project is a Public Library Management System implemented using Spring Boot, Hibernate, MapStruct, H2 Database, and Swagger. It provides a RESTful API for managing books and libraries in a public library system.
+This project is a Public Library Management System implemented using Spring Boot, Hibernate, MapStruct, PostgreSQL, H2 Database, and Swagger. It provides a RESTful API for managing books and libraries in a public library system.
 
 ### Features
 - **Book Management**: CRUD operations for managing books including creation, retrieval, updating, and deletion.
@@ -14,6 +14,7 @@ This project is a Public Library Management System implemented using Spring Boot
 - **Spring Boot**: For building RESTful web services.
 - **Hibernate**: Object-relational mapping library for data persistence.
 - **MapStruct**: For object mapping between DTOs and entities.
+- **PostgreSQL**: A powerful open-source relational database management system used for storing and managing library data.
 - **H2 Database**: In-memory database for data storage during development and testing.
 - **Swagger**: For API documentation and testing.
 
@@ -22,6 +23,18 @@ This project is a Public Library Management System implemented using Spring Boot
 2. Navigate to the project directory: `cd public-library`
 3. Build the project: `mvn clean install`
 4. Run the application: `mvn spring-boot:run`
+5. Access the Application:
+   Once the application is running, you can access the API endpoints and Swagger UI through your web browser:
+   - API Endpoints: http://localhost:8080/api
+   - Swagger UI: http://localhost:8080/swagger-ui/index.html
+
+### Docker Integration
+
+This application is Dockerized and integrates seamlessly with a PostgreSQL database running on a separate Docker image. 
+Docker Compose is utilized to coordinate their simultaneous execution, ensuring smooth operation.
+
+To run the application using Docker Compose, ensure Docker and Docker Compose are installed on your system, and then execute
+- **Execute the following command to start up the ochestration**:  `docker-compose up -d` 
 
 ### API Endpoints
 - **Books**:

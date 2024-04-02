@@ -2,7 +2,7 @@ version: '3'
 
 services:
   spring-boot-app:
-    image: luthorhub/online-public-libraries:1.1
+    image: luthorhub/online-public-libraries:1.0
     ports:
       - "8080:8080"
     depends_on:
@@ -11,6 +11,7 @@ services:
   postgres:
     image: postgres
     restart: always
+    container_name: postgres
     environment:
       POSTGRES_DB: online_public_libraries
       POSTGRES_USER: admin

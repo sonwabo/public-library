@@ -56,6 +56,7 @@ Access the Swagger UI to view and interact with the API documentation:
 - Spring Boot
 - Hibernate
 - MapStruct
+- Postgres
 - H2 Database
 - Swagger
 

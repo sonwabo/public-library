@@ -21,7 +21,7 @@ public enum TestDataGenerator {
 
     COMPLETE() {
         @Override
-        public LibraryDTO generate(final Long library_id) {
+        public LibraryDTO generateLibrary(final Long library_id) {
             return new LibraryDTO(null, "Atlanta ATL Public Library", "Downtown Atlanta",
                     new ArrayList<BookDTO>() {{
                         add(new BookDTO(null, library_id, "Greenlights", "Matthew McConaughey", MEMOIR, LocalDate.of(2023, 1, 18)));
@@ -43,15 +43,15 @@ public enum TestDataGenerator {
         }
     }, PARTIAL() {
         @Override
-        public LibraryDTO generate(final Long library_id) {
+        public LibraryDTO generateLibrary(final Long library_id) {
             return new LibraryDTO(library_id, "Harlem Public Library", "New York (NYC) ", null, null);
         }
     }, INCOMPLETE() {
         @Override
-        public LibraryDTO generate(final Long library_id) {
+        public LibraryDTO generateLibrary(final Long library_id) {
             return new LibraryDTO(library_id, "Texas Public Library", null, null, null);
         }
     };
 
-    public abstract LibraryDTO generate(final Long library_id);
+    public abstract LibraryDTO generateLibrary(final Long library_id);
 }

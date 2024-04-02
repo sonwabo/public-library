@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import za.co.publiclibrary.IntegrationTestParent;
-import za.co.publiclibrary.controller.LibraryController;
 import za.co.publiclibrary.service.LibraryService;
 import za.co.publiclibrary.testdata.TestDataGenerator;
 
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class LibraryControllerITTests extends IntegrationTestParent {
 
-    final static String BASE_PATH = "/api/libraries";
+    final static String BASE_PATH = "/api/library";
     @Autowired
     private LibraryService service;
 
@@ -73,7 +72,7 @@ class LibraryControllerITTests extends IntegrationTestParent {
 
     @Test
     void createLibraryAPI() throws Exception {
-        final var data = TestDataGenerator.COMPLETE.generate(null);
+        final var data = TestDataGenerator.COMPLETE.generateLibrary(null);
 
         mvc.perform(MockMvcRequestBuilders
                         .post(BASE_PATH)
@@ -97,7 +96,7 @@ class LibraryControllerITTests extends IntegrationTestParent {
     {
         mvc.perform(MockMvcRequestBuilders
                         .post(BASE_PATH)
-                        .content(asJsonString(TestDataGenerator.INCOMPLETE.generate(null)))
+                        .content(asJsonString(TestDataGenerator.INCOMPLETE.generateLibrary(null)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -106,4 +105,95 @@ class LibraryControllerITTests extends IntegrationTestParent {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(400))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message[0]").value("must not be null"));
     }
+
+    /*
+    @Test
+    void updateLibraryAPI() throws Exception {
+
+
+        final var libraryDTO = TestDataGenerator.COMPLETE.generateLibrary(null);
+        LibraryDTO createdLibrary = createLibrary(libraryDTO);
+
+        // Update the library
+        String newName = "Updated Library Name";
+        createdLibrary.setName(newName);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .put(BASE_PATH)
+                        .content(asJsonString(createdLibrary))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(createdLibrary.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(newName));
+    }
+
+    @Test
+    void deleteLibraryByIdAPI() throws Exception {
+        // Create a library
+        LibraryDTO libraryDTO = TestDataGenerator.COMPLETE.generateLibrary(null);
+        LibraryDTO createdLibrary = createLibrary(libraryDTO);
+
+        // Delete the library
+        mvc.perform(MockMvcRequestBuilders
+                        .delete(BASE_PATH + "/" + createdLibrary.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        // Try to fetch the deleted library (it should not be found)
+        mvc.perform(MockMvcRequestBuilders
+                        .get(BASE_PATH + "/" + createdLibrary.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
+    void updateLibraryAPI_NonExistingLibrary() throws Exception {
+        // Create a library DTO with an ID that doesn't exist
+        LibraryDTO libraryDTO = TestDataGenerator.COMPLETE.generateLibrary(null);
+        libraryDTO.setId(999L);
+
+        // Attempt to update the non-existing library
+        mvc.perform(MockMvcRequestBuilders
+                        .put(BASE_PATH)
+                        .content(asJsonString(libraryDTO))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteLibraryByIdAPI_NonExistingLibrary() throws Exception {
+        // Attempt to delete a library with a non-existing ID
+        Long nonExistingId = 999L;
+
+        mvc.perform(MockMvcRequestBuilders
+                        .delete(BASE_PATH + "/" + nonExistingId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteLibraryByIdAPI_LibraryInUse() throws Exception {
+        // Create a library
+        LibraryDTO libraryDTO = TestDataGenerator.COMPLETE.generateLibrary(null);
+        LibraryDTO createdLibrary = createLibrary(libraryDTO);
+
+        // Attempt to delete the library while it's still in use (e.g., it has books associated with it)
+        mvc.perform(MockMvcRequestBuilders
+                        .delete(BASE_PATH + "/" + createdLibrary.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    */
+
+
 }

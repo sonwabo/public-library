@@ -2,18 +2,17 @@ package za.co.publiclibrary.book;
 
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import za.co.publiclibrary.IntegrationTestParent;
 import za.co.publiclibrary.dto.BookDTO;
-import za.co.publiclibrary.service.BookService;
 
 import java.time.LocalDate;
 
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static za.co.publiclibrary.model.enums.BookGenre.MANGA;
 import static za.co.publiclibrary.model.enums.BookGenre.MEMOIR;
 
 /**
@@ -22,9 +21,10 @@ import static za.co.publiclibrary.model.enums.BookGenre.MEMOIR;
  * @Date 2024/03/28
  */
 
+@ExtendWith(SpringExtension.class)
 class BookControllerITTests extends IntegrationTestParent {
 
-    final static String BASE_PATH = "/api/books";
+    final static String BASE_PATH = "/api/book";
 
     @Test
     void testFindBookById() throws Exception

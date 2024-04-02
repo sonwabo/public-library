@@ -16,6 +16,7 @@ import za.co.publiclibrary.mapper.BookMapper;
 import za.co.publiclibrary.model.dao.BookRepository;
 import za.co.publiclibrary.model.dao.LibraryRepository;
 
+import static za.co.publiclibrary.config.MessageUtil.ExceptionMsgKey.BOOK_NOT_ASSC_WITH_LIB;
 import static za.co.publiclibrary.config.MessageUtil.ExceptionMsgKey.BOOK_NOT_FOUND;
 import static za.co.publiclibrary.config.MessageUtil.ExceptionMsgKey.LIBRARY_NOT_FOUND;
 
@@ -99,7 +100,7 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() ->  new BookNotFoundException(this.messageUtil.getMessage(BOOK_NOT_FOUND.value(),bookId)));
 
         if (library.getBookList() != null && !library.getBookList().contains(book)) {
-            throw new IllegalArgumentException(this.messageUtil.getMessage(BOOK_NOT_FOUND.value(),bookId,libraryId));
+            throw new IllegalArgumentException(this.messageUtil.getMessage(BOOK_NOT_ASSC_WITH_LIB.value(),bookId,libraryId));
         }
 
         book.setLibrary(null);

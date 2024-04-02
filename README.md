@@ -34,7 +34,12 @@ This application is Dockerized and integrates seamlessly with a PostgreSQL datab
 Docker Compose is utilized to coordinate their simultaneous execution, ensuring smooth operation.
 
 To run the application using Docker Compose, ensure Docker and Docker Compose are installed on your system, and then execute
-- **Execute the following command to start up the ochestration**:  `docker-compose up -d` 
+1. Navigate to the project directory: cd public-library
+2. Execute the following command to start up the orchestration: `docker-compose up -d`
+3. Access the Application:
+   Once the application is running, you can access the API endpoints and Swagger UI through your web browser:
+    - API Endpoints: http://localhost:8080/api
+    - Swagger UI: http://localhost:8080/swagger-ui/index.html
 
 ### API Endpoints
 - **Books**:

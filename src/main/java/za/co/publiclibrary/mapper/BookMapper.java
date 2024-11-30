@@ -13,7 +13,7 @@ import za.co.publiclibrary.model.entity.BookEntity;
  * @Date 2024/03/28
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface BookMapper {
 
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
